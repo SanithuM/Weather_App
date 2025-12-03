@@ -1,110 +1,144 @@
 # Weather App
 
-**Overview**
+![Status - Active](https://img.shields.io/badge/Status-Active-brightgreen)
+![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
+![State Management](https://img.shields.io/badge/State-Provider-blueviolet?logo=flutter)
 
-A lightweight Flutter weather application that displays current weather and a 5-day forecast, supports favorites, and allows users to choose temperature, wind and pressure units. State is managed with Provider, and user preferences are persisted with SharedPreferences.
+A modern Flutter weather application that shows current conditions, a 5-day forecast, and lets users save favorite cities. The app uses a feature-based architecture, `Provider` for state management, and `SharedPreferences` for lightweight persistence.
 
-**Key Features**
+This README follows a friendly, developer-first style inspired by other well-documented Flutter projects.
+
+## 📸 Screenshots
+
+*Screenshots will be added as UI changes are finalized.*
+
+| Home | Forecast Card | Favorites | Settings |
+| :---: | :---: | :---: | :---: |
+| ![home](assets/images/home_placeholder.png) | ![forecast](assets/images/forecast_placeholder.png) | ![favorites](assets/images/favorites_placeholder.png) | ![settings](assets/images/settings_placeholder.png) |
+
+Replace the placeholder images under `assets/images/` with real screenshots and update this table when ready.
+
+## ✨ Features
+
 - Current weather (temperature, description, icon)
-- 5-day forecast preview and detail screen
-- Favorites: add/remove cities, swipe-to-delete, multi-select deletion
-- Persistent user settings: temperature unit (°C/°F), wind unit (km/h or mph), pressure unit (hPa or mbar)
-- Per-city caching for favorites to avoid unnecessary network requests
+- 5-day forecast preview with detail screen
+- Favorites: add/remove cities, swipe-to-delete, long-press multi-select and batch delete
+- Persistent user settings: temperature (°C/°F), wind (km/h or mph), pressure (hPa or mbar)
+- Per-city favorites caching to reduce network requests
+- Responsive UI (LayoutBuilder) and accessible controls
 
-**Repository Structure (important files)**
-- `lib/main.dart` — App entry and Provider registrations
-- `lib/features/weather/viewmodels/weather_provider.dart` — Fetches weather & forecast (uses OpenWeather API)
-- `lib/features/weather/views/home_screen.dart` — Main UI
-- `lib/features/weather/views/weather_details_screen.dart` — Detailed metrics (pressure, wind, humidity, etc.)
-- `lib/features/weather/models/weather_model.dart` — Weather model
-- `lib/features/favorites/viewmodels/favorites_provider.dart` — Favorites persistence
-- `lib/features/favorites/viewmodels/views/favorites_screen.dart` — Favorites UI (caching + multi-select)
-- `lib/features/settings/viewmodels/settings_provider.dart` — Persists user preferences (temperature, wind, pressure)
-- `lib/features/settings/views/settings_screen.dart` — Settings UI
+## 🛠 Tech Stack
 
-**Prerequisites**
-- Flutter SDK (stable). Follow Flutter's official install guide: https://flutter.dev/docs/get-started/install
-- Platform toolchains (Android SDK, Xcode for macOS/iOS if targeting those platforms)
-- Recommended editor: VS Code or Android Studio with Flutter & Dart plugins
+- Framework: Flutter
+- Language: Dart
+- State Management: Provider
+- Network: `http`
+- Persistence: `shared_preferences`
+- Image caching: `cached_network_image`
+- Date formatting: `intl`
 
-**Install dependencies**
-Open a PowerShell terminal in the project root and run:
+## 📁 Project Structure
+
+Feature-based layout; only key files shown:
+
+```
+lib/
+ ┣ features/
+ ┃ ┣ weather/
+ ┃ ┃ ┣ models/
+ ┃ ┃ ┃ ┗ weather_model.dart
+ ┃ ┃ ┣ viewmodels/
+ ┃ ┃ ┃ ┗ weather_provider.dart
+ ┃ ┃ ┗ views/
+ ┃ ┃   ┣ home_screen.dart
+ ┃ ┃   ┗ weather_details_screen.dart
+ ┃ ┣ favorites/
+ ┃ ┃ ┣ viewmodels/
+ ┃ ┃ ┃ ┗ favorites_provider.dart
+ ┃ ┃ ┗ views/
+ ┃ ┃   ┗ favorites_screen.dart
+ ┃ ┗ settings/
+ ┃   ┣ viewmodels/
+ ┃   ┃ ┗ settings_provider.dart
+ ┃   ┗ views/
+ ┃     ┗ settings_screen.dart
+ ┣ main.dart
+```
+
+## 🔑 API Key (OpenWeather)
+
+This app uses the OpenWeather API. For development you can either set the API key directly in `lib/features/weather/viewmodels/weather_provider.dart` (not recommended for production) or use `flutter_dotenv`:
+
+1. Add `flutter_dotenv` to `pubspec.yaml`.
+2. Create a `.env` file in the project root with:
+
+```
+OPENWEATHER_API_KEY=your_api_key_here
+```
+
+3. Load the env file in `main.dart` and read the key inside `WeatherProvider`.
+
+## 🚀 Getting Started (PowerShell)
+
+1. Clone the repo
+
+```powershell
+git clone https://github.com/SanithuM/Weather_App.git
+cd Weather_App
+```
+
+2. Install dependencies
 
 ```powershell
 flutter pub get
 ```
 
-If you add new packages, run the same command again.
-
-**API Key Configuration**
-This app uses the OpenWeather API. By default the API key is present in `lib/features/weather/viewmodels/weather_provider.dart` as a constant. For development you can either:
-
-- Replace the hard-coded `_apiKey` value in `lib/features/weather/viewmodels/weather_provider.dart` with your own API key.
-
-Or, for a safer approach, use an environment variable or `flutter_dotenv`:
-
-1. Add `flutter_dotenv` to `pubspec.yaml`.
-2. Create a `.env` file with `OPENWEATHER_API_KEY=your_key_here`.
-3. Load the env in `main.dart` and read it in `WeatherProvider`.
-
-**Run the app (PowerShell)**
-
-Run on the default connected device/emulator:
+3. Run the app
 
 ```powershell
 flutter run
 ```
 
-Run on Windows desktop (if configured):
-
-```powershell
-flutter run -d windows
-```
-
-Run on a specific Android emulator (example):
-
-```powershell
-flutter emulators
-flutter emulators --launch <emulatorId>
-flutter run -d emulator-5554
-```
-
-Run analyzer and tests:
+4. Run analyzer and tests
 
 ```powershell
 flutter analyze
 flutter test
 ```
 
-**How settings & units work**
-- Temperature: toggled in `SettingsScreen`; persisted by `SettingsProvider`. The `WeatherProvider` reads the preference when building API requests and requests metric (`units=metric`) or imperial (`units=imperial`) accordingly.
-- Wind: stored as `windKmh` in `SettingsProvider`. The details UI converts API-returned wind values to km/h or mph for display.
-- Pressure: stored as `pressureHpa` in `SettingsProvider`. OpenWeather returns pressure in hPa (same as mbar); the app changes the label between `hPa` and `mbar`.
+## ⚙️ Settings & Units
 
-**Favorites behavior**
-- Favorites are persisted using SharedPreferences in `FavoritesProvider`.
-- The Favorites screen caches per-city weather futures to avoid re-fetching on rebuild.
-- Long-press enters selection mode for multi-delete; swipe-to-delete is supported on each row.
+- Temperature units are persisted via `SettingsProvider` and used to choose the API `units` parameter (`metric` vs `imperial`).
+- Wind speed and pressure preferences are persisted and used to format values in the details screen (conversions applied when needed).
+- The Home screen listens for settings changes and will refresh the current city's weather automatically when units change.
 
-**Developer notes & suggestions**
-- `WeatherProvider` currently reads `SharedPreferences` on each fetch to decide API `units`. For better performance you can inject `SettingsProvider` into `WeatherProvider` so it listens for changes and maintains an in-memory unit flag.
-- Consider removing hard-coded API keys from source and using environment variables or encrypted secrets for release builds.
-- The `analysis_options.yaml` references packages that may not be installed in all environments — run `flutter pub get` and ensure your environment matches the expected SDK versions.
+## ❤️ Favorites
 
-**Common Troubleshooting**
-- "Null is not a subtype of type 'bool'": occurs when reading booleans from prefs or provider before they've been initialized. We added defensive checks (compare with `== true`) in UI files to mitigate this. Ensure `SettingsProvider` has loaded before expecting non-null values.
-- Missing platform toolchains: refer to Flutter setup docs for Android/iOS/desktop specifics.
+- Favorite cities persist using `SharedPreferences` via `FavoritesProvider`.
+- Favorites screen caches per-city weather futures so the list doesn't re-fetch on every rebuild.
+- Long-press to enter multi-select mode and delete multiple favorites; swipe a city row to delete a single city.
 
-**Contributing**
-- Fork and create a branch for feature work: `feature/your-feature`.
-- Keep changes small and focused; add tests where appropriate.
+## Developer Notes
+
+- `WeatherProvider` currently reads `SharedPreferences` for unit selection at fetch-time. For lower latency and simpler testing, consider injecting `SettingsProvider` into `WeatherProvider` so it keeps an in-memory flag and listens for changes.
+- Wind unit handling: when requesting `units=metric`, OpenWeather returns wind speed in m/s; when `units=imperial`, wind is returned in mph. The details UI normalizes/scales values for display based on the selected wind unit.
+- Pressure: OpenWeather returns pressure in hPa (same numeric value as mbar). The UI will label values as `hPa` or `mbar` per user choice.
+
+## Common Troubleshooting
+
+- `Null is not a subtype of type 'bool'`: Make sure `SettingsProvider` has finished loading preferences before relying on boolean settings. UI uses defensive checks (`== true`) to avoid crashes when values are temporarily null.
+- If images fail to load: check network connectivity and that the OpenWeather image URL format is correct.
+
+## Contributing
+
+- Fork the repo and create a feature branch (e.g. `feature/units-conversions`).
 - Run `flutter analyze` and `flutter test` before opening a PR.
 
-If you want, I can:
-- Move API key handling to `flutter_dotenv` and update `main.dart`.
-- Inject `SettingsProvider` into `WeatherProvider` so API calls use the in-memory preference (avoid repeated SharedPreferences access).
-- Add Undo action to the favorites SnackBar to restore a removed city.
+If you'd like, I can:
+- Move API key handling to `.env` with `flutter_dotenv`.
+- Inject `SettingsProvider` into `WeatherProvider` so units are observed in-memory.
+- Add an Undo action to the favorites SnackBar.
 
 ---
 
-If you'd like edits to any section or want me to implement one of the optional improvements now, tell me which and I'll proceed.
+If you'd like the README tweaked (more screenshots, badges, or step-by-step developer instructions), tell me which parts to expand and I'll update it.
