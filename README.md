@@ -11,9 +11,9 @@ A modern, cross-platform mobile weather application developed using `Flutter` an
 
 *Screenshots will be added as UI changes are finalized.*
 
-| Home | Forecast Card | Favorites | Settings |
+| Home | Forecast | Favorites | Settings |
 | :---: | :---: | :---: | :---: |
-| ![home](assets/images/home_placeholder.png) | ![forecast](assets/images/forecast_placeholder.png) | ![favorites](assets/images/favorites_placeholder.png) | ![settings](assets/images/settings_placeholder.png) |
+| ![home](assets/images/home_page.png) | ![forecast](assets/images/forecast_page.png) | ![favorites](assets/images/favorites_page.png) | ![settings](assets/images/settings_page.png) |
 
 Replace the placeholder images under `assets/images/` with real screenshots and update this table when ready.
 
