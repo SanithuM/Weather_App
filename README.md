@@ -13,7 +13,7 @@ A modern, cross-platform mobile weather application developed using `Flutter` an
 
 | Home | Forecast | Favorites | Settings |
 | :---: | :---: | :---: | :---: |
-| ![home](assets/images/home_page.png) | ![forecast](assets/images/forecast_page.png) | ![favorites](assets/images/favorites_page.png) | ![settings](assets/images/settings_page.png) |
+| ![home](assets/images/home_page.jpg) | ![forecast](assets/images/forecast_page.jpg) | ![favorites](assets/images/favorites_page.jpg) | ![settings](assets/images/settings_page.jpg) |
 
 Replace the placeholder images under `assets/images/` with real screenshots and update this table when ready.
 
