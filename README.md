@@ -1,12 +1,11 @@
-# Weather App
+# 🌦️ Weather App
 
 ![Status - Active](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
 ![State Management](https://img.shields.io/badge/State-Provider-blueviolet?logo=flutter)
 
-A modern Flutter weather application that shows current conditions, a 5-day forecast, and lets users save favorite cities. The app uses a feature-based architecture, `Provider` for state management, and `SharedPreferences` for lightweight persistence.
+A modern, cross-platform mobile weather application developed using `Flutter` and the `OpenWeatherMap API`. This project demonstrates robust software architecture (MVVM), `state management`, and local data persistence without requiring a backend login system.
 
-This README follows a friendly, developer-first style inspired by other well-documented Flutter projects.
 
 ## 📸 Screenshots
 
@@ -31,9 +30,11 @@ Replace the placeholder images under `assets/images/` with real screenshots and 
 
 - Framework: Flutter
 - Language: Dart
+- Architecture: MVVM with Feature-based folder
 - State Management: Provider
 - Network: `http`
 - Persistence: `shared_preferences`
+- API: `OpenWeatherMap`
 - Image caching: `cached_network_image`
 - Date formatting: `intl`
 
@@ -124,21 +125,3 @@ flutter test
 - Wind unit handling: when requesting `units=metric`, OpenWeather returns wind speed in m/s; when `units=imperial`, wind is returned in mph. The details UI normalizes/scales values for display based on the selected wind unit.
 - Pressure: OpenWeather returns pressure in hPa (same numeric value as mbar). The UI will label values as `hPa` or `mbar` per user choice.
 
-## Common Troubleshooting
-
-- `Null is not a subtype of type 'bool'`: Make sure `SettingsProvider` has finished loading preferences before relying on boolean settings. UI uses defensive checks (`== true`) to avoid crashes when values are temporarily null.
-- If images fail to load: check network connectivity and that the OpenWeather image URL format is correct.
-
-## Contributing
-
-- Fork the repo and create a feature branch (e.g. `feature/units-conversions`).
-- Run `flutter analyze` and `flutter test` before opening a PR.
-
-If you'd like, I can:
-- Move API key handling to `.env` with `flutter_dotenv`.
-- Inject `SettingsProvider` into `WeatherProvider` so units are observed in-memory.
-- Add an Undo action to the favorites SnackBar.
-
----
-
-If you'd like the README tweaked (more screenshots, badges, or step-by-step developer instructions), tell me which parts to expand and I'll update it.
