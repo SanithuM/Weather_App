@@ -66,19 +66,6 @@ lib/
  ┣ main.dart
 ```
 
-## 🔑 API Key (OpenWeather)
-
-This app uses the OpenWeather API. For development you can either set the API key directly in `lib/features/weather/viewmodels/weather_provider.dart` (not recommended for production) or use `flutter_dotenv`:
-
-1. Add `flutter_dotenv` to `pubspec.yaml`.
-2. Create a `.env` file in the project root with:
-
-```
-OPENWEATHER_API_KEY=your_api_key_here
-```
-
-3. Load the env file in `main.dart` and read the key inside `WeatherProvider`.
-
 ## 🚀 Getting Started (PowerShell)
 
 1. Clone the repo
