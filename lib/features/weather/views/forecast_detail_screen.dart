@@ -50,78 +50,86 @@ class ForecastDetailScreen extends StatelessWidget {
                       final dayName = DateFormat('EEEE').format(date); // "Monday"
                       final fullDate = DateFormat('MMM d').format(date); // "Oct 25"
 
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.1), // Darker tint for contrast
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Colors.white.withOpacity(0.2)),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Left Side: Day and Date
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dayName,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white, // White text
-                                      ),
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4B9EEB),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          children: [
+                            // Left Side: Day and Date
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    dayName,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      fullDate,
-                                      style: const TextStyle(
-                                        color: Colors.white70, // Slightly faded white
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                // Center: Weather Icon and Description
-                                Row(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl: 'https://openweathermap.org/img/wn/${day.iconCode}.png',
-                                      width: 50,
-                                      height: 50,
-                                      // Optional: Tint icon white if you prefer flat icons
-                                      // color: Colors.white, 
-                                      errorWidget: (context, url, error) => const Icon(Icons.cloud, color: Colors.white),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      day.description, 
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                // Right Side: Temperature
-                                Text(
-                                  '${day.temperature.toStringAsFixed(0)}°',
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white, // White text
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    fullDate, // e.g. "Dec 3"
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+
+                            // Center: Weather Icon and Description
+                            Expanded(
+                              flex: 4,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: 'https://openweathermap.org/img/wn/${day.iconCode}.png',
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.contain,
+                                    errorWidget: (context, url, error) => const Icon(Icons.cloud, color: Colors.white),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Flexible(
+                                    child: Text(
+                                      day.description,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Right Side: Temperature
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                '${day.temperature.toStringAsFixed(0)}°',
+                                textAlign: TextAlign.end,
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     },

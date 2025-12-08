@@ -93,7 +93,7 @@ class WeatherDetailsScreen extends StatelessWidget {
   Widget _buildDetailCard(IconData icon, String title, String value) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: const Color(0xFF4B9EEB),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.2)),
       ),
