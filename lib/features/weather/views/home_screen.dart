@@ -115,9 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF3B72CF), // Rich Blue (Top)
-                  Color(0xFF649CE6), // Soft Blue (Middle)
-                  Color(0xFF9AC6F7), // Light Sky Blue (Bottom)
+                  Color.fromARGB(255, 7, 123, 255), // Rich Blue (Top)
+                  Color.fromARGB(255, 89, 158, 222), // Soft Blue (Middle)
+                  Color.fromARGB(255, 133, 208, 255), // Light Sky Blue (Bottom)
                 ],
                 stops: [0.0, 0.5, 1.0],
               ),
@@ -377,9 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: containerHeight,
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(
-                                        0.15,
-                                      ), // Darker tint for contrast
+                                      color: const Color(0xFF4B9EEB),
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
                                         color: Colors.white.withOpacity(0.1),
