@@ -7,7 +7,7 @@ import '../models/forecast_model.dart';
 
 class WeatherProvider extends ChangeNotifier {
   // OpenWeatherMap API key and base URL used for all requests
-  final String _apiKey = '3d7d43845ebdb4790806795505bb4bc3';
+  final String _apiKey = 'your-api-key';
   final String _baseUrl = 'https://api.openweathermap.org/data/2.5';
 
   // Current state cached in the provider
