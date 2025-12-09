@@ -146,7 +146,7 @@ class WeatherDetailsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Leading widget (Icon or Image) and text laid out vertically inside the card
-          // `leading` is sized by the caller (we pass width/height for images)
+          // `leading` is sized by the caller (pass width/height for images)
           leading,
           const SizedBox(height: 10),
           Text(title, style: const TextStyle(color: Colors.white70, fontSize: 14)),

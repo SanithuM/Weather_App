@@ -359,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ).size.height;
                               final containerHeight = (screenHeight * 0.36)
                                   .clamp(220.0, 420.0);
-                              // final availableWidth = constraints.maxWidth; // unused
+                              
 
                               // Build min/max across available temps for progress bars
                               final temps = weatherProvider.forecast

@@ -34,7 +34,7 @@ class WeatherProvider extends ChangeNotifier {
       final useCelsius = prefs.getBool('useCelsius') ?? true;
       final units = useCelsius ? 'metric' : 'imperial';
 
-      // 1) Fetch current weather JSON
+      // Fetch current weather JSON
       final weatherUrl = Uri.parse('$_baseUrl/weather?q=$cityName&appid=$_apiKey&units=$units');
       final weatherResponse = await http.get(weatherUrl);
 
@@ -42,7 +42,7 @@ class WeatherProvider extends ChangeNotifier {
         final weatherData = json.decode(weatherResponse.body);
         _weather = WeatherModel.fromJson(weatherData); // parse into model
 
-        // 2) Fetch forecast after current weather parsed
+        // Fetch forecast after current weather parsed
         await _fetchForecast(cityName);
       } else {
         // Non-200 response -> show simple message
