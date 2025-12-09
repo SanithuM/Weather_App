@@ -236,6 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ],
                                             ),
+                                            //favorite toggle logic
                                             onPressed: () {
                                               final cityName = weatherProvider.weather!.cityName;
                                               if (isFavorite) {

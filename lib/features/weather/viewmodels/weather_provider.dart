@@ -88,7 +88,7 @@ class WeatherProvider extends ChangeNotifier {
         final data = json.decode(response.body);
         final List list = data['list'];
 
-        // Filter: The API gives data every 3 hours. We filter to get just one reading per day (e.g., 12:00 PM).
+        // Filter: The API gives data every 3 hours. filter to get just one reading per day (e.g., 12:00 PM).
         _forecast = list
             .where((item) => item['dt_txt'].contains('12:00:00'))
             .map((item) => ForecastModel.fromJson(item))

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Needed for time formatting
+import 'package:intl/intl.dart'; // for time formatting
 import 'package:provider/provider.dart';
 import '../../settings/viewmodels/settings_provider.dart';
 import '../models/weather_model.dart';
 
+// Screen that shows detailed current-weather metrics for a location.
 class WeatherDetailsScreen extends StatelessWidget {
   final WeatherModel weather;
 
@@ -11,6 +12,7 @@ class WeatherDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Read persisted user settings (units) from the provider.
     final settings = Provider.of<SettingsProvider>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -42,12 +44,51 @@ class WeatherDetailsScreen extends StatelessWidget {
               mainAxisSpacing: 15,
               childAspectRatio: 1.3, // Make cards rectangular
               children: [
-                _buildDetailCard(Icons.water_drop, "Humidity", "${weather.humidity}%"),
-                _buildDetailCard(Icons.air, "Wind Speed", _formatWind(weather, settings)),
-                _buildDetailCard(Icons.speed, "Pressure", _formatPressure(weather, settings)),
-                _buildDetailCard(Icons.visibility, "Visibility", "${(weather.visibility / 1000).toStringAsFixed(1)} km"),
-                _buildDetailCard(Icons.wb_sunny, "Sunrise", _formatTime(weather.sunrise)),
-                _buildDetailCard(Icons.nights_stay, "Sunset", _formatTime(weather.sunset)),
+                // Humidity (percentage)
+                _buildDetailCard(
+                  // Uniform leading size so images and icons match visually
+                  SizedBox(width: 36, height: 36, child: Icon(Icons.water_drop, color: Colors.white, size: 30)),
+                  "Humidity",
+                  "${weather.humidity}%",
+                ),
+                // Wind - value formatted based on user settings
+                _buildDetailCard(
+                  SizedBox(width: 36, height: 36, child: Icon(Icons.air, color: Colors.white, size: 30)),
+                  "Wind Speed",
+                  _formatWind(weather, settings),
+                ),
+                // Pressure - label switches between hPa and mbar
+                _buildDetailCard(
+                  SizedBox(width: 36, height: 36, child: Icon(Icons.speed, color: Colors.white, size: 30)),
+                  "Pressure",
+                  _formatPressure(weather, settings),
+                ),
+                // Visibility converted to kilometers
+                _buildDetailCard(
+                  SizedBox(width: 36, height: 36, child: Icon(Icons.visibility, color: Colors.white, size: 30)),
+                  "Visibility",
+                  "${(weather.visibility / 1000).toStringAsFixed(1)} km",
+                ),
+                // Sunrise / Sunset formatted to local time
+                // Use provided PNG assets for clearer sunrise/sunset visuals
+                  _buildDetailCard(
+                    SizedBox(
+                      width: 36,
+                      height: 36,
+                      child: Center(child: Image.asset('assets/icons/sunrise.png', fit: BoxFit.contain)),
+                    ),
+                    "Sunrise",
+                    _formatTime(weather.sunrise),
+                  ),
+                  _buildDetailCard(
+                    SizedBox(
+                      width: 36,
+                      height: 36,
+                      child: Center(child: Image.asset('assets/icons/sunset.png', fit: BoxFit.contain)),
+                    ),
+                    "Sunset",
+                    _formatTime(weather.sunset),
+                  ),
               ],
             ),
           ),
@@ -57,19 +98,19 @@ class WeatherDetailsScreen extends StatelessWidget {
   }
 
   String _formatWind(WeatherModel weather, SettingsProvider settings) {
-    // Determine what units the API returned for wind.
-    // WeatherProvider fetches using the temperature unit preference (metric => m/s, imperial => mph).
-    // We use settings.useCelsius to infer the API wind unit at fetch time.
+    // Convert the stored windSpeed into m/s regardless of what the API
+    // returned, by inferring the API unit from the temperature setting.
     double windMs;
-    if (settings.useCelsius == true) {
-      // API returned m/s
+    if (settings.useCelsius) {
+      // Metric fetch: windSpeed is already in m/s
       windMs = weather.windSpeed;
     } else {
-      // API returned mph — convert to m/s
+      // Imperial fetch: windSpeed is in mph -> convert to m/s
       windMs = weather.windSpeed * 0.44704;
     }
 
-    if (settings.windKmh == true) {
+    // Present wind in user's preferred unit (km/h or mph).
+    if (settings.windKmh) {
       final kmh = windMs * 3.6;
       return '${kmh.toStringAsFixed(1)} km/h';
     } else {
@@ -79,7 +120,7 @@ class WeatherDetailsScreen extends StatelessWidget {
   }
 
   String _formatPressure(WeatherModel weather, SettingsProvider settings) {
-    // OpenWeather returns pressure in hPa (same as mbar). No conversion needed; only label changes.
+    // Pressure value is the same for hPa and mbar; only the unit label changes.
     final value = weather.pressure;
     return settings.pressureHpa ? '$value hPa' : '$value mbar';
   }
@@ -90,7 +131,8 @@ class WeatherDetailsScreen extends StatelessWidget {
     return DateFormat('jm').format(date); // Requires intl package
   }
 
-  Widget _buildDetailCard(IconData icon, String title, String value) {
+  // Accept a leading `Widget` so callers can provide an `Icon` or `Image.asset`.
+  Widget _buildDetailCard(Widget leading, String title, String value) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF4B9EEB),
@@ -100,7 +142,9 @@ class WeatherDetailsScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 30),
+          // Leading widget (Icon or Image) and text laid out vertically inside the card
+          // `leading` is sized by the caller (we pass width/height for images)
+          leading,
           const SizedBox(height: 10),
           Text(title, style: const TextStyle(color: Colors.white70, fontSize: 14)),
           const SizedBox(height: 5),

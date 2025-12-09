@@ -11,7 +11,7 @@ class FavoritesProvider extends ChangeNotifier {
     loadFavorites();
   }
 
-  // C - Create (Add a city)
+  // Create (Add a city)
   Future<void> addCity(String cityName) async {
     if (!_favoriteCities.contains(cityName)) {
       _favoriteCities.add(cityName);
@@ -20,7 +20,7 @@ class FavoritesProvider extends ChangeNotifier {
     }
   }
 
-  // R - Read (Load from storage)
+  // Read (Load from storage)
   Future<void> loadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     // defaulting to an empty list if nothing is found
@@ -28,7 +28,7 @@ class FavoritesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // D - Delete (Remove a city)
+  // Delete (Remove a city)
   Future<void> removeCity(String cityName) async {
     _favoriteCities.remove(cityName);
     await _saveToStorage();
