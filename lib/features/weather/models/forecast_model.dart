@@ -1,3 +1,4 @@
+// Simple model representing a single daily forecast entry
 class ForecastModel {
   final String date; 
   final double temperature;

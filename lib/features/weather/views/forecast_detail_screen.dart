@@ -13,7 +13,8 @@ class ForecastDetailScreen extends StatelessWidget {
     final forecastList = weatherProvider.forecast;
 
     return Scaffold(
-      extendBodyBehindAppBar: true, // Allows gradient to go behind AppBar
+      // Allow gradient background behind app bar for visual continuity
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text("5-Day Forecast", style: TextStyle(color: Colors.white)),
         centerTitle: true,
@@ -35,7 +36,8 @@ class ForecastDetailScreen extends StatelessWidget {
             stops: [0.0, 0.5, 1.0],
           ),
         ),
-        child: SafeArea(
+          child: SafeArea(
+          // Show message when no forecast available, otherwise list items
           child: forecastList.isEmpty
               ? const Center(child: Text("No forecast data available", style: TextStyle(color: Colors.white)))
               : Padding(

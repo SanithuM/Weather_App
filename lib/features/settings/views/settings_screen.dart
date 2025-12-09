@@ -16,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        // Top bar for the settings screen
         title: const Text("Settings", style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -28,6 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
+              // Section: Units
               const Text(
                 'Units',
                 style: TextStyle(color: Colors.white70, fontSize: 14),
@@ -41,6 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: const Color.fromARGB(255, 72, 72, 79), // Dark grey card background
                   child: Column(
                     children: [
+                      // Toggle temperature units (Celsius / Fahrenheit)
                       Consumer<SettingsProvider>(
                         builder: (context, settings, _) => ListTile(
                           title: const Text('Temperature units', style: TextStyle(color: Colors.white)),
@@ -54,6 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                           onTap: () async {
+                            // Flip the temperature unit and persist
                             final newVal = !(settings.useCelsius == true);
                             await settings.setUseCelsius(newVal);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Units set to ${newVal ? '°C' : '°F'}')));
@@ -61,6 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       Divider(color: Colors.white.withOpacity(0.06), height: 1),
+                      // Toggle wind speed display (km/h or mph)
                       Consumer<SettingsProvider>(
                         builder: (context, settings, _) => ListTile(
                           title: const Text('Wind speed units', style: TextStyle(color: Colors.white)),
@@ -74,6 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                           onTap: () async {
+                            // Flip wind unit preference and persist
                             final newVal = !(settings.windKmh == true);
                             await settings.setWindKmh(newVal);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Wind units set to ${newVal ? 'km/h' : 'mph'}')));
@@ -81,6 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       Divider(color: Colors.white.withOpacity(0.06), height: 1),
+                      // Toggle pressure display unit (hPa / mbar)
                       Consumer<SettingsProvider>(
                           builder: (context, settings, _) => ListTile(
                           title: const Text('Atmospheric pressure units', style: TextStyle(color: Colors.white)),
@@ -94,6 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                           onTap: () async {
+                            // Flip pressure unit preference and persist
                             final newVal = !(settings.pressureHpa == true);
                             await settings.setPressureHpa(newVal);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pressure units set to ${newVal ? 'hPa' : 'mbar'}')));
@@ -108,6 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 20),
 
               // About / Feedback / Privacy
+              // Section: About / Feedback
               const Text('About Weather', style: TextStyle(color: Colors.white70, fontSize: 14)),
               const SizedBox(height: 12),
               ClipRRect(
@@ -116,6 +125,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: const Color.fromARGB(255, 72, 72, 79), // Dark grey card background
                   child: Column(
                     children: [
+                      // Feedback / Privacy are placeholders that show a SnackBar
                       ListTile(
                         title: const Text('Feedback', style: TextStyle(color: Colors.white)),
                         trailing: const Icon(Icons.chevron_right, color: Colors.white70),

@@ -36,23 +36,26 @@ class SettingsProvider extends ChangeNotifier {
 
   // Update local state and UI immediately, then persist the change.
   Future<void> setUseCelsius(bool v) async {
-    _useCelsius = v;
-    notifyListeners(); // update UI right away
+    // Persist preference, update in-memory value, and refresh UI
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_kUseCelsiusKey, v); // persist change
+    await prefs.setBool(_kUseCelsiusKey, v);
+    _useCelsius = v;
+    notifyListeners();
   }
 
   Future<void> setWindKmh(bool v) async {
-    _windKmh = v;
-    notifyListeners();
+    // Save wind unit preference and notify listeners
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kWindKmhKey, v);
+    _windKmh = v;
+    notifyListeners();
   }
 
   Future<void> setPressureHpa(bool v) async {
-    _pressureHpa = v;
-    notifyListeners();
+    // Save pressure unit preference and notify UI
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kPressureHpaKey, v);
+    _pressureHpa = v;
+    notifyListeners();
   }
 }

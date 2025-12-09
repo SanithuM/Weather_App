@@ -55,6 +55,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             )
           : Stack(
               children: [
+                // List favorites; each item loads a cached future for quick preview
                 ListView.builder(
                   itemCount: favoritesProvider.favoriteCities.length,
                   itemBuilder: (context, index) {
@@ -76,9 +77,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           SnackBar(content: Text('$city removed')),
                         );
                       },
+                      // Dismissible lets user swipe to remove a city
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                         child: GestureDetector(
+                          // Long press enters multi-select mode
                           onLongPress: () {
                             setState(() {
                               _selectionMode = true;
@@ -88,6 +91,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
                             onTap: () {
+                              // Toggle selection when in selection mode
                               if (_selectionMode) {
                                 setState(() {
                                   if (_selected.contains(city)) {
@@ -99,6 +103,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                 });
                                 return;
                               }
+                              // Normal tap: fetch weather for this city and close
                               Provider.of<WeatherProvider>(context, listen: false).fetchWeatherData(city);
                               Navigator.pop(context);
                             },

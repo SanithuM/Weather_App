@@ -55,12 +55,14 @@ class WeatherDetailsScreen extends StatelessWidget {
                 _buildDetailCard(
                   SizedBox(width: 36, height: 36, child: Icon(Icons.air, color: Colors.white, size: 30)),
                   "Wind Speed",
+                  // Format wind according to user unit preferences
                   _formatWind(weather, settings),
                 ),
                 // Pressure - label switches between hPa and mbar
                 _buildDetailCard(
                   SizedBox(width: 36, height: 36, child: Icon(Icons.speed, color: Colors.white, size: 30)),
                   "Pressure",
+                  // Show pressure with user's chosen unit label
                   _formatPressure(weather, settings),
                 ),
                 // Visibility converted to kilometers
@@ -78,6 +80,7 @@ class WeatherDetailsScreen extends StatelessWidget {
                       child: Center(child: Image.asset('assets/icons/sunrise.png', fit: BoxFit.contain)),
                     ),
                     "Sunrise",
+                    // Convert UNIX timestamp to local human time
                     _formatTime(weather.sunrise),
                   ),
                   _buildDetailCard(

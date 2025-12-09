@@ -6,13 +6,15 @@ import '../models/weather_model.dart';
 import '../models/forecast_model.dart'; 
 
 class WeatherProvider extends ChangeNotifier {
-  final String _apiKey = '3d7d43845ebdb4790806795505bb4bc3'; 
+  // OpenWeatherMap API key and base URL used for all requests
+  final String _apiKey = '3d7d43845ebdb4790806795505bb4bc3';
   final String _baseUrl = 'https://api.openweathermap.org/data/2.5';
 
-  WeatherModel? _weather;
-  List<ForecastModel> _forecast = []; // This is the private list
-  bool _isLoading = false;
-  String _errorMessage = '';
+  // Current state cached in the provider
+  WeatherModel? _weather; // latest current weather
+  List<ForecastModel> _forecast = []; // daily forecast list
+  bool _isLoading = false; // loading indicator for UI
+  String _errorMessage = ''; // human-friendly error message
 
   // Getters
   WeatherModel? get weather => _weather;
@@ -27,27 +29,28 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Determine units from persisted settings
+      // Pick units (metric vs imperial) from persisted settings
       final prefs = await SharedPreferences.getInstance();
       final useCelsius = prefs.getBool('useCelsius') ?? true;
       final units = useCelsius ? 'metric' : 'imperial';
 
-      // 1. Fetch Current Weather
+      // 1) Fetch current weather JSON
       final weatherUrl = Uri.parse('$_baseUrl/weather?q=$cityName&appid=$_apiKey&units=$units');
       final weatherResponse = await http.get(weatherUrl);
 
       if (weatherResponse.statusCode == 200) {
         final weatherData = json.decode(weatherResponse.body);
-        _weather = WeatherModel.fromJson(weatherData);
+        _weather = WeatherModel.fromJson(weatherData); // parse into model
 
-        // 2. Fetch 5-Day Forecast
-        await _fetchForecast(cityName); 
-        
+        // 2) Fetch forecast after current weather parsed
+        await _fetchForecast(cityName);
       } else {
+        // Non-200 response -> show simple message
         _errorMessage = 'City not found: $cityName';
         _weather = null;
       }
     } catch (e) {
+      // Network or parsing error
       _errorMessage = 'Connection error. Please try again.';
       _weather = null;
     }
@@ -88,13 +91,14 @@ class WeatherProvider extends ChangeNotifier {
         final data = json.decode(response.body);
         final List list = data['list'];
 
-        // Filter: The API gives data every 3 hours. filter to get just one reading per day (e.g., 12:00 PM).
+        // The forecast API returns 3-hour entries; pick one per day (12:00) for a daily summary
         _forecast = list
             .where((item) => item['dt_txt'].contains('12:00:00'))
             .map((item) => ForecastModel.fromJson(item))
             .toList();
       }
     } catch (e) {
+      // Log but don't break the whole UI
       print("Error fetching forecast: $e");
     }
   }

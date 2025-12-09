@@ -6,6 +6,7 @@ import 'features/settings/viewmodels/settings_provider.dart';
 import 'features/weather/views/home_screen.dart';
 
 void main() {
+  // Entry point: start the Flutter app
   runApp(const MyApp());
 }
 
@@ -16,13 +17,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // SettingsProvider should be created before others that may read its value
+        // Provide app-wide settings first so other providers can read them
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
 
-        // This initializes the Logic/State for the Weather feature
+        // Weather state & logic (fetching/parsing API responses)
         ChangeNotifierProvider(create: (_) => WeatherProvider()),
 
-        // This initializes the Logic/State for the Favorites feature
+        // Favorites state (persisted list of cities)
         ChangeNotifierProvider(create: (_) => FavoritesProvider()),
       ],
       child: MaterialApp(

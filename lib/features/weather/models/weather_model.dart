@@ -6,9 +6,9 @@ class WeatherModel {
   final int humidity;
   final double windSpeed;
   final int pressure;
-  final int visibility; // in meters
-  final int sunrise;    // UNIX timestamp
-  final int sunset;     // UNIX timestamp
+  final int visibility; // visibility in meters
+  final int sunrise;    // UNIX timestamp (seconds)
+  final int sunset;     // UNIX timestamp (seconds)
 
   WeatherModel({
     required this.cityName,

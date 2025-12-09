@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _cityController = TextEditingController();
   VoidCallback? _settingsListener;
+  // Controller for the search input and a listener to refresh on unit changes
 
   @override
   void initState() {
@@ -30,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         listen: false,
       ).fetchWeatherData("London");
+
+      // Fetch initial city (London) once after first frame
 
       // Listen for unit changes so we can refresh displayed weather
       final settings = Provider.of<SettingsProvider>(context, listen: false);
@@ -48,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     try {
       final settings = Provider.of<SettingsProvider>(context, listen: false);
+      // Remove listener to avoid memory leaks when screen is disposed
       if (_settingsListener != null) settings.removeListener(_settingsListener!);
     } catch (_) {}
     _cityController.dispose();
@@ -168,11 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   horizontal: 20,
                                 ),
                               ),
-                              onSubmitted: (value) {
-                                if (value.isNotEmpty) {
-                                  weatherProvider.fetchWeatherData(value);
-                                }
-                              },
+                                // When user submits a city, fetch its weather
+                                onSubmitted: (value) {
+                                  if (value.isNotEmpty) {
+                                    weatherProvider.fetchWeatherData(value);
+                                  }
+                                },
                             ),
 
                             const SizedBox(height: 30),
@@ -236,8 +241,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ],
                                             ),
-                                            //favorite toggle logic
-                                            onPressed: () {
+                                            // Favorite toggle: add/remove city from saved list
+                                              onPressed: () {
                                               final cityName = weatherProvider.weather!.cityName;
                                               if (isFavorite) {
                                                 favoritesProvider.removeCity(cityName);
@@ -467,15 +472,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ).format(date);
                                               final double temp =
                                                   day.temperature;
-                                              final double tMin = minTemp;
-                                              final double tMax =
-                                                  maxTemp == tMin
-                                                  ? tMin + 1
-                                                  : maxTemp;
-                                              final double fraction =
-                                                  ((temp - tMin) /
+                                                    // Compute normalized fraction for progress-like bar
+                                                    final double tMin = minTemp;
+                                                    final double tMax =
+                                                      maxTemp == tMin
+                                                      ? tMin + 1
+                                                      : maxTemp;
+                                                    final double fraction =
+                                                      ((temp - tMin) /
                                                           (tMax - tMin))
-                                                      .clamp(0.0, 1.0);
+                                                        .clamp(0.0, 1.0);
 
                                               return Padding(
                                                 padding:
