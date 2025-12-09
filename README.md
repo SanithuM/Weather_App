@@ -66,34 +66,6 @@ lib/
  ┣ main.dart
 ```
 
-## 🚀 Getting Started (PowerShell)
-
-1. Clone the repo
-
-```powershell
-git clone https://github.com/SanithuM/Weather_App.git
-cd Weather_App
-```
-
-2. Install dependencies
-
-```powershell
-flutter pub get
-```
-
-3. Run the app
-
-```powershell
-flutter run
-```
-
-4. Run analyzer and tests
-
-```powershell
-flutter analyze
-flutter test
-```
-
 ## ⚙️ Settings & Units
 
 - Temperature units are persisted via `SettingsProvider` and used to choose the API `units` parameter (`metric` vs `imperial`).
@@ -106,9 +78,4 @@ flutter test
 - Favorites screen caches per-city weather futures so the list doesn't re-fetch on every rebuild.
 - Long-press to enter multi-select mode and delete multiple favorites; swipe a city row to delete a single city.
 
-## Developer Notes
-
-- `WeatherProvider` currently reads `SharedPreferences` for unit selection at fetch-time. For lower latency and simpler testing, consider injecting `SettingsProvider` into `WeatherProvider` so it keeps an in-memory flag and listens for changes.
-- Wind unit handling: when requesting `units=metric`, OpenWeather returns wind speed in m/s; when `units=imperial`, wind is returned in mph. The details UI normalizes/scales values for display based on the selected wind unit.
-- Pressure: OpenWeather returns pressure in hPa (same numeric value as mbar). The UI will label values as `hPa` or `mbar` per user choice.
 
